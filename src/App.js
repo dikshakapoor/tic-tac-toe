@@ -60,9 +60,9 @@ render(){
   return(
     <div className="container">
     <h1>Tic tac toe App</h1>
-    {!player && <Player setPlayer={(player)=>this.setPlayer(player)}/>} 
+    {!player ? <Player setPlayer={(player)=>this.setPlayer(player)}/> : <p>Next Player is {player} </p> }
     <div className="board">
-   {boxs}
+    {boxs}
     </div>
     </div>
   )
