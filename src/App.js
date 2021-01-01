@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import Player from './Components/Player';
+import Status from './Components/Status';
 
 import './app.css';
 class App extends Component {
@@ -11,6 +11,19 @@ class App extends Component {
       player: null,
       winner : null,
     }
+  }
+
+  checkMatch(winLines){
+    for (let index = 0; index < winLines.length; index++){
+      const [firstWinningIndex, secondWinningIndex, thirdWinningIndex] = winLines[index];
+      const {board, player} = this.state;
+      if (board[firstWinningIndex]&& board[secondWinningIndex] && board[thirdWinningIndex] && board[firstWinningIndex] === board[secondWinningIndex] && board[firstWinningIndex] === board[thirdWinningIndex]){ //board[firstWinningIndex] &&  board[secondWinningIndex] &&  board[thirdWinningIndex]
+        alert("you won")
+        this.setState({
+          winner: player
+      })
+    }
+  }
   }
 
   checkWinner(){
@@ -24,17 +37,8 @@ class App extends Component {
       ["0","4","8"],
       ["2","4","6"],
     ];
-
-    for (let index = 0; index < winLines.length; index++){
-      const [firstWinningIndex, secondWinningIndex, thirdWinningIndex] = winLines[index];
-      const {board, player} = this.state;
-      if (board[firstWinningIndex]&& board[secondWinningIndex] && board[thirdWinningIndex] && board[firstWinningIndex] === board[secondWinningIndex] && board[firstWinningIndex] === board[thirdWinningIndex]){ //board[firstWinningIndex] &&  board[secondWinningIndex] &&  board[thirdWinningIndex]
-        alert("you won")
-        this.setState({
-          winner: player
-      })
-    }
-  }
+    
+    this.checkMatch(winLines);
   };
   handleBoxClick(index){
     const {board, player, winner} = this.state;
@@ -54,15 +58,20 @@ class App extends Component {
   this.setState({player})
   }
 
-render(){
-  const {board, player} = this.state;
-  const boxs = board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
+  renderBoxes() {
+    const {board} = this.state;
+    return board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
+  }
+
+  render(){
+  const { player,winner} = this.state;
+ 
   return(
     <div className="container">
     <h1>Tic tac toe App</h1>
-    {!player ? <Player setPlayer={(player)=>this.setPlayer(player)}/> : <p>Next Player is {player} </p> }
+    <Status player={player} winner={winner} setPlayer={(player)=> this.setPlayer(player)}/>
     <div className="board">
-    {boxs}
+    { this.renderBoxes()}
     </div>
     </div>
   )
