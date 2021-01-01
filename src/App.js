@@ -63,6 +63,14 @@ class App extends Component {
     return board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
   }
 
+  handleReset(){
+    this.setState({
+      board : Array(9).fill(null),
+      player: null,
+      winner : null,
+    })
+  }
+
   render(){
   const { player,winner} = this.state;
  
@@ -73,6 +81,7 @@ class App extends Component {
     <div className="board">
     { this.renderBoxes()}
     </div>
+    <button disabled={!winner} onClick={()=> this.handleReset()}>Reset</button>
     </div>
   )
 }
