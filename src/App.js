@@ -55,11 +55,12 @@ class App extends Component {
   }
 
 render(){
-  const boxs = this.state.board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
+  const {board, player} = this.state;
+  const boxs = board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
   return(
     <div className="container">
     <h1>Tic tac toe App</h1>
-    <Player setPlayer={(player)=>this.setPlayer(player)}/>
+    {!player && <Player setPlayer={(player)=>this.setPlayer(player)}/>} 
     <div className="board">
    {boxs}
     </div>
