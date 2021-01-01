@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
+
+import Player from './Components/Player';
+
 import './app.css';
 class App extends Component {
   constructor(props){
     super(props)
     this.state={
       board : Array(9).fill(null),
-      player: "X"
+      player: null,
+      winner : null,
     }
   }
 
@@ -23,16 +27,19 @@ class App extends Component {
 
     for (let index = 0; index < winLines.length; index++){
       const [firstWinningIndex, secondWinningIndex, thirdWinningIndex] = winLines[index];
-      const {board} = this.state;
+      const {board, player} = this.state;
       if (board[firstWinningIndex]&& board[secondWinningIndex] && board[thirdWinningIndex] && board[firstWinningIndex] === board[secondWinningIndex] && board[firstWinningIndex] === board[thirdWinningIndex]){ //board[firstWinningIndex] &&  board[secondWinningIndex] &&  board[thirdWinningIndex]
         alert("you won")
-      }
+        this.setState({
+          winner: player
+      })
     }
   }
-
+  };
   handleBoxClick(index){
-    const {board, player} = this.state;
-    if (board[index] === null ){      
+    const {board, player, winner} = this.state;
+    debugger;
+    if (board[index] === null && !winner && player){      
      board[index] = player;
      const newPlayer = player === "X" ? "O":"X"
     this.setState({
@@ -43,11 +50,16 @@ class App extends Component {
   this.checkWinner()
   }
 
+  setPlayer(player){
+  this.setState({player})
+  }
+
 render(){
   const boxs = this.state.board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
   return(
     <div className="container">
     <h1>Tic tac toe App</h1>
+    <Player setPlayer={(player)=>this.setPlayer(player)}/>
     <div className="board">
    {boxs}
     </div>
