@@ -111,7 +111,7 @@ setPlayerOption(option){ // set the options for players
    isWinner : false
  },     
     firstPlayer: {
-    name: "user",
+    name:  USER_COSTANT,
     option: undefined,
     isWinner: false,
   },
