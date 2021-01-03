@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 
 import Status from './Components/Status';
+import SecondPlayer from './Components/SecondPlayer';
 
 import './app.css';
 class App extends Component {
+
   constructor(props){
     super(props)
     this.state={
@@ -49,7 +51,6 @@ class App extends Component {
       ["0","4","8"],
       ["2","4","6"],
     ];
-    
     this.checkMatch(winLines);
   };
 
@@ -58,12 +59,12 @@ class App extends Component {
     if (board[index] === null && !firstPlayer.isWinner && !secondPlayer.isWinner ){  
       board[index] = currentPlayer.value;     
       const newPlayer = currentPlayer.value === firstPlayer.value ? secondPlayer: firstPlayer;  
-    this.setState(()=>({
-      board:[...board],
-    currentPlayer: newPlayer,
-    }))
+      this.setState({
+        board:[...board],
+        currentPlayer: newPlayer,
+    })
       this.checkWinner();
-  if(secondPlayer.name === "computer" && currentPlayer.name !== "computer" && !currentPlayer.isWinner) { 
+  if(secondPlayer.name === "computer" && currentPlayer.name !== "computer" && !firstPlayer.isWinner) { 
     const emptyIndex = [];
     board.map((box, index) => {
       if (box === null) 
@@ -79,9 +80,9 @@ class App extends Component {
 }
 }
 
-  setPlayerValue(value){
-    const {firstPlayer, secondPlayer} = this.state;
-    const secondPlayerValue = value === "X"? "O":"X";
+setPlayerOption(value){
+  const {firstPlayer, secondPlayer} = this.state;
+  const secondPlayerValue = value === "X"? "O":"X";
   this.setState({firstPlayer: {
     ...firstPlayer,
     value
@@ -102,56 +103,41 @@ class App extends Component {
     return board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
   }
 
-  handleSecondPlayer(e){
-    const selectedSecondPlayer = e.target.value;
+  handleSecondPlayer(selectedSecondPlayer){
     this.setState({
     secondPlayer: {
       name: selectedSecondPlayer
     }})
   }
 
-  getSecondPlayer(){
-   return(
-   <>
-   <p>Choose Player</p>
-    <div>
-      <label>Friend</label>
-        <input type="radio" name = "secondPlayer" value="friend" onClick={(e)=>this.handleSecondPlayer(e)}/> 
-      <label>Computer</label>
-        <input type="radio" name = "secondPlayer" value = "computer" onClick={(e)=>this.handleSecondPlayer(e)}/>
-    </div>
-  </>)
-  }
-
   handleReset(){
-  this.setState({ 
-  secondPlayer: {
-  name: undefined,
-  value: undefined,
-  isWinner : false
+    this.setState({ 
+    secondPlayer: {
+    name: undefined,
+    value: undefined,
+   isWinner : false
  },     
-  firstPlayer: {
-  name: "user",
-  value: undefined,
-  isWinner: false,
+    firstPlayer: {
+    name: "user",
+    value: undefined,
+    isWinner: false,
   },
   currentPlayer: null,
   board : Array(9).fill(null),})
 }
 
   render(){
-    const {firstPlayer, secondPlayer ,currentPlayer} = this.state; // check the edge case for double deconstruction
+    const {firstPlayer, secondPlayer ,currentPlayer, board} = this.state;
   const {value : secondPlayerValue, name : secondPlayerName} = secondPlayer ||{};
   return(
     <div className="container">
     <h1>Tic tac toe App</h1>
-   
-     { !secondPlayerName && this.getSecondPlayer()}
-    {secondPlayerName && <Status currentPlayer={currentPlayer} firstPlayer={firstPlayer} secondPlayer={secondPlayer} setPlayer={(value)=> this.setPlayerValue(value)}/>}
+     { !secondPlayerName && <SecondPlayer handleSecondPlayer={(selectedSecondPlayer) =>this.handleSecondPlayer(selectedSecondPlayer)}/>}
+    {secondPlayerName && <Status currentPlayer={currentPlayer} firstPlayer={firstPlayer} secondPlayer={secondPlayer} setPlayerOption={(value)=> this.setPlayerOption(value)}/>}
     <div className="board">
     {secondPlayerValue && this.renderBoxes()}
     </div>
-    {(firstPlayer.isWinner || secondPlayer.isWinner) && <button onClick={() => this.handleReset()}>Press to reset game</button>}
+    {(firstPlayer.isWinner || secondPlayer.isWinner|| !board.includes(null) ) && <button onClick={() => this.handleReset()}>Press to reset game</button>}
     </div>
   )
 }

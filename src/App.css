@@ -1,8 +1,12 @@
-container{
- text-align: center;
+.container{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
 }
 
 .box{
+ display: flex;
  width: 80px;
  height: 80px;
  border: 1px solid black;

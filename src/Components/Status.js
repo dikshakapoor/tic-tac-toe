@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 
-import Player from './Player';
+import PlayerOption from './PlayerOption';
 
 class Status extends Component{
     handleSetPlayer(e){
-        const {setPlayer} = this.props;
-        setPlayer(e);
+        const {setPlayerOption} = this.props;
+        setPlayerOption(e);
     }
 
     render() {
@@ -14,7 +14,7 @@ class Status extends Component{
             const winnerPlayer = firstPlayer.isWinner? firstPlayer.name : secondPlayer.name;
          return <p> winner is {winnerPlayer} </p>
         }
-        return !firstPlayer.value ? <Player setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p>Next Player is {currentPlayer.name} </p> 
+        return !firstPlayer.value ? <PlayerOption setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p>Next Player is {currentPlayer.name} </p> 
     }
 }
 
