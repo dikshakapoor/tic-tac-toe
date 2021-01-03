@@ -55,7 +55,6 @@ class App extends Component {
 
   handleBoxClick(index){
     const {firstPlayer, secondPlayer, board , currentPlayer} = this.state;
-    debugger;
     if (board[index] === null && !firstPlayer.isWinner && !secondPlayer.isWinner ){  
       board[index] = currentPlayer.value;     
       const newPlayer = currentPlayer.value === firstPlayer.value ? secondPlayer: firstPlayer;  
@@ -64,7 +63,6 @@ class App extends Component {
     currentPlayer: newPlayer,
     }))
       this.checkWinner();
-debugger;
   if(secondPlayer.name === "computer" && currentPlayer.name !== "computer" && !currentPlayer.isWinner) { 
     const emptyIndex = [];
     board.map((box, index) => {
