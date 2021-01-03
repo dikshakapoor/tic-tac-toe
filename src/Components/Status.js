@@ -9,12 +9,12 @@ class Status extends Component{
     }
  
  render() {
-  const { firstPlayer, secondPlayer, currentPlayer} = this.props;
+  const { firstPlayer, secondPlayer, currentPlayer, board} = this.props;
   if (firstPlayer.isWinner || secondPlayer.isWinner){
   const winnerPlayer = firstPlayer.isWinner? firstPlayer.name : secondPlayer.name;
   return <p> winner is {winnerPlayer} </p>
   }
-  debugger;
+  if (!board.includes(null)) return null;
   return !firstPlayer.option ? <PlayerOption setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p>Next Player is {currentPlayer.name} </p> 
     }
 }

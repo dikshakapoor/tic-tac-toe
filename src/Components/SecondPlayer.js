@@ -1,23 +1,24 @@
 import React, {Component} from 'react';
 
+import {SECOND_PLAYER_OPTIONS} from '../app.constants';
 class SecondPlayer extends Component {
-handleSelectedSecondPlayer(event){
+ handleSelectedSecondPlayer(event){
   const selectedSecondPlayer = event.target.value;
   const {handleSecondPlayer} = this.props;
   handleSecondPlayer(selectedSecondPlayer);
 }
 
-render(){
-
-return (<>
-<p>Choose Player</p>
- <div>
-   <label>Friend</label>
-     <input type="radio" name = "secondPlayer" value="friend" onClick={(e)=>this.handleSelectedSecondPlayer(e)}/> 
-   <label>Computer</label>
-     <input type="radio" name = "secondPlayer" value = "computer" onClick={(e)=>this.handleSelectedSecondPlayer(e)}/>
- </div>
-</>)
+ render(){
+  return (
+  <>
+   <p>Choose Second Player</p>
+    <div>
+    <label>{SECOND_PLAYER_OPTIONS.FRIEND} </label>
+    <input type="radio" value= {SECOND_PLAYER_OPTIONS.FRIEND} onClick={(e)=>this.handleSelectedSecondPlayer(e)}/> 
+    <label>{SECOND_PLAYER_OPTIONS.COMPUTER} </label>
+    <input type="radio" value = {SECOND_PLAYER_OPTIONS.COMPUTER} onClick={(e)=>this.handleSelectedSecondPlayer(e)}/>
+  </div>
+ </>)
 }
 };
 
