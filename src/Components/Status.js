@@ -14,7 +14,8 @@ class Status extends Component{
   const winnerPlayer = firstPlayer.isWinner? firstPlayer.name : secondPlayer.name;
   return <p> winner is {winnerPlayer} </p>
   }
-  return !firstPlayer.value ? <PlayerOption setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p>Next Player is {currentPlayer.name} </p> 
+  debugger;
+  return !firstPlayer.option ? <PlayerOption setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p>Next Player is {currentPlayer.name} </p> 
     }
 }
 
