@@ -11,11 +11,11 @@ class App extends Component {
     this.state={
       secondPlayer: {
       name: undefined,
-      value: undefined,
+      option: undefined,
       isWinner : false},     
       firstPlayer: {
       name: "user",
-      value: undefined,
+      option: undefined,
       isWinner: false,
       },
       currentPlayer: null,
@@ -28,7 +28,7 @@ class App extends Component {
       const [firstWinningIndex, secondWinningIndex, thirdWinningIndex] = winLines[index];
       const {board,firstPlayer , secondPlayer} = this.state;
       if (board[firstWinningIndex]&& board[secondWinningIndex] && board[thirdWinningIndex] && board[firstWinningIndex] === board[secondWinningIndex] && board[firstWinningIndex] === board[thirdWinningIndex]){
-         if( firstPlayer.value === board[firstWinningIndex] ){
+         if( firstPlayer.option === board[firstWinningIndex] ){
         return this.setState({
           firstPlayer: {...firstPlayer, isWinner: true}
        })
@@ -57,8 +57,8 @@ class App extends Component {
   handleBoxClick(index){
     const {firstPlayer, secondPlayer, board , currentPlayer} = this.state;
     if (board[index] === null && !firstPlayer.isWinner && !secondPlayer.isWinner ){  
-      board[index] = currentPlayer.value;     
-      const newPlayer = currentPlayer.value === firstPlayer.value ? secondPlayer: firstPlayer;  
+      board[index] = currentPlayer.option;     
+      const newPlayer = currentPlayer.option === firstPlayer.option ? secondPlayer: firstPlayer;  
       this.setState({
         board:[...board],
         currentPlayer: newPlayer,
@@ -71,7 +71,7 @@ class App extends Component {
      return emptyIndex.push(index);
      return null})
      const randomItem = emptyIndex[Math.floor(Math.random()* emptyIndex.length)];
-     board[randomItem] = secondPlayer.value;
+     board[randomItem] = secondPlayer.option;
      this.setState({
       board:[...board],
      currentPlayer: firstPlayer,
@@ -80,20 +80,20 @@ class App extends Component {
 }
 }
 
-setPlayerOption(value){
+setPlayerOption(option){
   const {firstPlayer, secondPlayer} = this.state;
-  const secondPlayerValue = value === "X"? "O":"X";
+  const secondPlayerValue = option === "X"? "O":"X";
   this.setState({firstPlayer: {
     ...firstPlayer,
-    value
+    option
   },
   secondPlayer: {
     ...secondPlayer,
-    value: secondPlayerValue,
+    option: secondPlayerValue,
   },
   currentPlayer: {
       ...firstPlayer,
-      value
+      option
   }
 })
 }
@@ -114,12 +114,12 @@ setPlayerOption(value){
     this.setState({ 
     secondPlayer: {
     name: undefined,
-    value: undefined,
+    option: undefined,
    isWinner : false
  },     
     firstPlayer: {
     name: "user",
-    value: undefined,
+    option: undefined,
     isWinner: false,
   },
   currentPlayer: null,
@@ -128,16 +128,16 @@ setPlayerOption(value){
 
   render(){
     const {firstPlayer, secondPlayer ,currentPlayer, board} = this.state;
-  const {value : secondPlayerValue, name : secondPlayerName} = secondPlayer ||{};
+  const {option : secondPlayerValue, name : secondPlayerName} = secondPlayer ||{};
   return(
     <div className="container">
     <h1>Tic tac toe App</h1>
      { !secondPlayerName && <SecondPlayer handleSecondPlayer={(selectedSecondPlayer) =>this.handleSecondPlayer(selectedSecondPlayer)}/>}
-    {secondPlayerName && <Status currentPlayer={currentPlayer} firstPlayer={firstPlayer} secondPlayer={secondPlayer} setPlayerOption={(value)=> this.setPlayerOption(value)}/>}
+    {secondPlayerName && <Status currentPlayer={currentPlayer} firstPlayer={firstPlayer} secondPlayer={secondPlayer} setPlayerOption={(option)=> this.setPlayerOption(option)}/>}
     <div className="board">
     {secondPlayerValue && this.renderBoxes()}
     </div>
-    {(firstPlayer.isWinner || secondPlayer.isWinner|| !board.includes(null) ) && <button onClick={() => this.handleReset()}>Press to reset game</button>}
+    {(firstPlayer.isWinner || secondPlayer.isWinner|| !board.includes(null) ) && <button onClick={() => this.handleReset()} className="resetButton">Press to reset game</button>}
     </div>
   )
 }
