@@ -7,9 +7,9 @@ import { WINNING_COMBINATION, PLAYING_OPTIONS, SECOND_PLAYER_OPTIONS ,USER_COSTA
 import './app.css';
 
 /*assumptions :
-1. user will have choice to select the options ('X' or 'Y')
-2. second user can be a friend or computer, incase its computer the selection of boxes will be random(from any empty box)
-3. the game can be reset only when all board boxes are filled
+1. user(or first player) will have choice to select options ('X' or 'Y').
+2. second player can be a friend or computer, incase its computer the selection of boxes will be random(from any empty box).
+3. the game can be reset only when all board boxes are filled or game is won by any of the player 
 */
 class App extends Component {
 
@@ -33,7 +33,7 @@ class App extends Component {
   checkWinner(){ // this function is used to match winning combination and incase condition is matched sets constant isWinner 
     for (let index = 0; index < WINNING_COMBINATION.length; index++){
       const [firstWinningIndex, secondWinningIndex, thirdWinningIndex] = WINNING_COMBINATION[index];
-      const {board,firstPlayer , secondPlayer} = this.state;
+      const {board, firstPlayer , secondPlayer} = this.state;
       if (board[firstWinningIndex]&& board[secondWinningIndex] && board[thirdWinningIndex] && board[firstWinningIndex] === board[secondWinningIndex] && board[firstWinningIndex] === board[thirdWinningIndex]){
          if( firstPlayer.option === board[firstWinningIndex] ){
         return this.setState({
@@ -56,19 +56,20 @@ class App extends Component {
         board:[...board],
         currentPlayer: newPlayer,
     })
-      this.checkWinner();
-  if(secondPlayer.name === SECOND_PLAYER_OPTIONS.COMPUTER && currentPlayer.name !== SECOND_PLAYER_OPTIONS.COMPUTER && !firstPlayer.isWinner) { 
-    const emptyIndex = [];
+    this.checkWinner();
+   if(secondPlayer.name === SECOND_PLAYER_OPTIONS.COMPUTER && currentPlayer.name !== SECOND_PLAYER_OPTIONS.COMPUTER && !firstPlayer.isWinner) { 
+    const emptyIndexBoxs= [];
     board.map((box, index) => {
       if (box === null) 
-     return emptyIndex.push(index);
+     return emptyIndexBoxs.push(index);
      return null})
-     const randomItem = emptyIndex[Math.floor(Math.random()* emptyIndex.length)];
-     board[randomItem] = secondPlayer.option;
+     const randomEmptyBoxIndex = emptyIndexBoxs[Math.floor(Math.random()* emptyIndexBoxs.length)];
+     board[randomEmptyBoxIndex] = secondPlayer.option;
      this.setState({
       board:[...board],
      currentPlayer: firstPlayer,
     })
+    this.checkWinner();
   }
 }
 }

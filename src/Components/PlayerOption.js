@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+/* this file option selection 'X' or 'O' by user*/
 class Player extends Component {
 
 handleSelectedPlayerOption(e){

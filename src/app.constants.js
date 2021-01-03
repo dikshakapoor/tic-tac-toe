@@ -1,4 +1,4 @@
-// this file is for saving constants used in App
+// this file is for saving constants
 
 export const WINNING_COMBINATION = [
   ["0","1","2"],
@@ -21,4 +21,4 @@ export const SECOND_PLAYER_OPTIONS = {
   FRIEND: 'Friend',
 }
 
-export const USER_COSTANT = "user";
+export const USER_COSTANT = "User";

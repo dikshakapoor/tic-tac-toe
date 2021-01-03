@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
 import {SECOND_PLAYER_OPTIONS} from '../app.constants';
+
+/* this file is for selecting second player : computer or friend by user */
 class SecondPlayer extends Component {
  handleSelectedSecondPlayer(event){
   const selectedSecondPlayer = event.target.value;
