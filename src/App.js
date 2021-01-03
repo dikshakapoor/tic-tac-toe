@@ -4,8 +4,7 @@ import Status from './Components/Status';
 import SecondPlayer from './Components/SecondPlayer';
 import { WINNING_COMBINATION, PLAYING_OPTIONS, SECOND_PLAYER_OPTIONS ,USER_COSTANT } from './app.constants.js';
 
-import './app.css';
-
+import './App.css';
 /*assumptions :
 1. user(or first player) will have choice to select options ('X' or 'Y').
 2. second player can be a friend or computer, incase its computer the selection of boxes will be random(from any empty box).
