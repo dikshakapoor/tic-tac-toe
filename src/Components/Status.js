@@ -8,16 +8,14 @@ class Status extends Component{
         setPlayer(e);
     }
 
-    handleReset(){
-
-    }
-
     render() {
-        const {player, winner} = this.props;
-        if (winner){
-         return <p> winner is winner {winner} </p>
+        const { firstPlayer, secondPlayer, currentPlayer} = this.props;
+        if (firstPlayer.isWinner || secondPlayer.isWinner){
+            const winnerPlayer = firstPlayer.isWinner? firstPlayer.name : secondPlayer.name;
+         return <p> winner is {winnerPlayer} </p>
         }
-        return !player ? <Player setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p>Next Player is {player} </p> 
+    debugger;
+        return !firstPlayer.value ? <Player setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p>Next Player is {currentPlayer.name} </p> 
     }
 }
 

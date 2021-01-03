@@ -6,8 +6,8 @@ handleFormSubmit(e){
     e.preventDefault();
     console.log(e.target.player.value);
     const{setPlayer} = this.props;
-    const selectedPlayer = e.target.player.value;
-    setPlayer(selectedPlayer);
+    const selectedPlayerValue = e.target.player.value;
+    setPlayer(selectedPlayerValue);
 }
 
 render() {

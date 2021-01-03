@@ -7,21 +7,33 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state={
-      board : Array(9).fill(null),
-      player: null,
-      winner : null,
+      secondPlayer: {
+      name: undefined,
+      value: undefined,
+      isWinner : false},     
+      firstPlayer: {
+      name: "user",
+      value: undefined,
+      isWinner: false,
+      },
+      currentPlayer: null,
+      board : Array(9).fill(null), 
     }
   }
 
   checkMatch(winLines){
     for (let index = 0; index < winLines.length; index++){
       const [firstWinningIndex, secondWinningIndex, thirdWinningIndex] = winLines[index];
-      const {board, player} = this.state;
-      if (board[firstWinningIndex]&& board[secondWinningIndex] && board[thirdWinningIndex] && board[firstWinningIndex] === board[secondWinningIndex] && board[firstWinningIndex] === board[thirdWinningIndex]){ //board[firstWinningIndex] &&  board[secondWinningIndex] &&  board[thirdWinningIndex]
-        alert("you won")
-        this.setState({
-          winner: player
-      })
+      const {board,firstPlayer , secondPlayer} = this.state;
+      if (board[firstWinningIndex]&& board[secondWinningIndex] && board[thirdWinningIndex] && board[firstWinningIndex] === board[secondWinningIndex] && board[firstWinningIndex] === board[thirdWinningIndex]){
+         if( firstPlayer.value === board[firstWinningIndex] ){
+        return this.setState({
+          firstPlayer: {...firstPlayer, isWinner: true}
+       })
+         }
+        return this.setState({
+           secondPlayer: {...secondPlayer, isWinner: true}
+       })
     }
   }
   }
@@ -40,51 +52,111 @@ class App extends Component {
     
     this.checkMatch(winLines);
   };
+
   handleBoxClick(index){
-    const {board, player, winner} = this.state;
+    const {firstPlayer, secondPlayer, board , currentPlayer} = this.state;
     debugger;
-    if (board[index] === null && !winner && player){      
-     board[index] = player;
-     const newPlayer = player === "X" ? "O":"X"
-    this.setState({
+    if (board[index] === null && !firstPlayer.isWinner && !secondPlayer.isWinner ){  
+      board[index] = currentPlayer.value;     
+      const newPlayer = currentPlayer.value === firstPlayer.value ? secondPlayer: firstPlayer;  
+    this.setState(()=>({
       board:[...board],
-      player : newPlayer,
+    currentPlayer: newPlayer,
+    }))
+      this.checkWinner();
+debugger;
+  if(secondPlayer.name === "computer" && currentPlayer.name !== "computer" && !currentPlayer.isWinner) { 
+    const emptyIndex = [];
+    board.map((box, index) => {
+      if (box === null) 
+     return emptyIndex.push(index);
+     return null})
+     const randomItem = emptyIndex[Math.floor(Math.random()* emptyIndex.length)];
+     board[randomItem] = secondPlayer.value;
+     this.setState({
+      board:[...board],
+     currentPlayer: firstPlayer,
     })
   }
-  this.checkWinner()
-  }
+}
+}
 
-  setPlayer(player){
-  this.setState({player})
+  setPlayerValue(value){
+    const {firstPlayer, secondPlayer} = this.state;
+    const secondPlayerValue = value === "X"? "O":"X";
+  this.setState({firstPlayer: {
+    ...firstPlayer,
+    value
+  },
+  secondPlayer: {
+    ...secondPlayer,
+    value: secondPlayerValue,
+  },
+  currentPlayer: {
+      ...firstPlayer,
+      value
   }
+})
+}
 
   renderBoxes() {
     const {board} = this.state;
     return board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
   }
 
-  handleReset(){
+  handleSecondPlayer(e){
+    const selectedSecondPlayer = e.target.value;
     this.setState({
-      board : Array(9).fill(null),
-      player: null,
-      winner : null,
-    })
+    secondPlayer: {
+      name: selectedSecondPlayer
+    }})
   }
 
+  getSecondPlayer(){
+   return(
+   <>
+   <p>Choose Player</p>
+    <div>
+      <label>Friend</label>
+        <input type="radio" name = "secondPlayer" value="friend" onClick={(e)=>this.handleSecondPlayer(e)}/> 
+      <label>Computer</label>
+        <input type="radio" name = "secondPlayer" value = "computer" onClick={(e)=>this.handleSecondPlayer(e)}/>
+    </div>
+  </>)
+  }
+
+  handleReset(){
+  this.setState({ 
+  secondPlayer: {
+  name: undefined,
+  value: undefined,
+  isWinner : false
+ },     
+  firstPlayer: {
+  name: "user",
+  value: undefined,
+  isWinner: false,
+  },
+  currentPlayer: null,
+  board : Array(9).fill(null),})
+}
+
   render(){
-  const { player,winner} = this.state;
- 
+    const {firstPlayer, secondPlayer ,currentPlayer} = this.state; // check the edge case for double deconstruction
+  const {value : secondPlayerValue, name : secondPlayerName} = secondPlayer ||{};
   return(
     <div className="container">
     <h1>Tic tac toe App</h1>
-    <Status player={player} winner={winner} setPlayer={(player)=> this.setPlayer(player)}/>
+   
+     { !secondPlayerName && this.getSecondPlayer()}
+    {secondPlayerName && <Status currentPlayer={currentPlayer} firstPlayer={firstPlayer} secondPlayer={secondPlayer} setPlayer={(value)=> this.setPlayerValue(value)}/>}
     <div className="board">
-    { this.renderBoxes()}
+    {secondPlayerValue && this.renderBoxes()}
     </div>
-    <button disabled={!winner} onClick={()=> this.handleReset()}>Reset</button>
+    {(firstPlayer.isWinner || secondPlayer.isWinner) && <button onClick={() => this.handleReset()}>Press to reset game</button>}
     </div>
   )
 }
-}//
+}
 
 export default App;
