@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import PlayerOption from './PlayerOption';
-import '../App.css';
+import '../app.css';
 
 /* this is for indicating the winner, next player in game and render PlayerOption*/
 class Status extends Component{

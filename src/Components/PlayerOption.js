@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../App.css';
+import '../app.css';
 /* this file option selection 'X' or 'O' by user*/
 class Player extends Component {
 

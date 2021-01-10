@@ -4,7 +4,7 @@ import Status from './Components/Status';
 import SecondPlayer from './Components/SecondPlayer';
 import { WINNING_COMBINATION, PLAYING_OPTIONS, SECOND_PLAYER_OPTIONS ,USER_COSTANT } from './app.constants.js';
 
-import './App.css';
+import './app.css';
 
 /*assumptions :
 1. user(or first player) will have choice to select options ('X' or 'Y').
