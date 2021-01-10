@@ -14,9 +14,9 @@ class Status extends Component{
   const { firstPlayer, secondPlayer, currentPlayer, board} = this.props;
   if (firstPlayer.isWinner || secondPlayer.isWinner){
   const winnerPlayer = firstPlayer.isWinner? firstPlayer.name : secondPlayer.name;
-  return <p className="mainText"> Winner is <b>{winnerPlayer}</b> </p>
+  return <p className="mainText"> Winner is {winnerPlayer}</p>
   }
-  if (!board.includes(null)) return null;
+  if (!board.includes(null)) return <p className="mainText"> No winner </p>;
   return !firstPlayer.option ? <PlayerOption setPlayer={(e)=>this.handleSetPlayer(e)}/> : <p className="mainText">Next Player is {currentPlayer.name} </p> 
     }
 }
