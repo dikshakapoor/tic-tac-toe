@@ -5,6 +5,7 @@ import SecondPlayer from './Components/SecondPlayer';
 import { WINNING_COMBINATION, PLAYING_OPTIONS, SECOND_PLAYER_OPTIONS ,USER_COSTANT } from './app.constants.js';
 
 import './App.css';
+
 /*assumptions :
 1. user(or first player) will have choice to select options ('X' or 'Y').
 2. second player can be a friend or computer, incase its computer the selection of boxes will be random(from any empty box).
@@ -93,10 +94,10 @@ setPlayerOption(option){ // set the options for players
 
  renderBoxes() {
     const {board} = this.state;
-    return board.map((box,index) => <div className="box" key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
+    return board.map((box,index) => <div className= {`box ${box}Label`} key={index} onClick={() => this.handleBoxClick(index)}>{box}</div>)
   }
 
-  setSecondPlayer(selectedSecondPlayer){ //sets the second player
+ setSecondPlayer(selectedSecondPlayer){ //sets the second player
     this.setState({
     secondPlayer: {
       name: selectedSecondPlayer
@@ -108,7 +109,7 @@ setPlayerOption(option){ // set the options for players
     secondPlayer: {
     name: undefined,
     option: undefined,
-   isWinner : false
+    isWinner : false
  },     
     firstPlayer: {
     name:  USER_COSTANT,
@@ -119,18 +120,17 @@ setPlayerOption(option){ // set the options for players
   board : Array(9).fill(null),})
 }
 
-  render(){
-    const {firstPlayer, secondPlayer ,currentPlayer, board} = this.state;
+render(){
+  const {firstPlayer, secondPlayer ,currentPlayer, board} = this.state;
   const {option : secondPlayerValue, name : secondPlayerName} = secondPlayer ||{};
   return(
     <div className="container">
-    <h1>Tic Tac Toe App</h1>
-     { !secondPlayerName && <SecondPlayer handleSecondPlayer={(selectedSecondPlayer) =>this.setSecondPlayer(selectedSecondPlayer)}/>}
+    { !secondPlayerName && <SecondPlayer handleSecondPlayer={(selectedSecondPlayer) =>this.setSecondPlayer(selectedSecondPlayer)}/>}
     {secondPlayerName && <Status currentPlayer={currentPlayer} firstPlayer={firstPlayer} secondPlayer={secondPlayer} board= {board} setPlayerOption={(option)=> this.setPlayerOption(option)}/>}
     <div className="board">
     {secondPlayerValue && this.renderBoxes()}
     </div>
-    {(firstPlayer.isWinner || secondPlayer.isWinner|| !board.includes(null) ) && <button onClick={() => this.handleReset()} className="resetButton">Press to reset game</button>}
+    {(firstPlayer.isWinner || secondPlayer.isWinner|| !board.includes(null) ) && <button onClick={() => this.handleReset()} className="button">Press to reset game</button>}
     </div>
   )
 }

@@ -12,8 +12,8 @@ export const WINNING_COMBINATION = [
   ];
 
 export const PLAYING_OPTIONS = {
- X :'X',
- O: 'O',
+ X :'x',
+ O: 'o',
 }
 
 export const SECOND_PLAYER_OPTIONS = {
